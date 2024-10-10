@@ -1,42 +1,30 @@
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
 public class Main {
     public static void main(String[] args) {
-        try {
-            // Проверка корректного вычисления скидки
-            double purchaseAmount = 1000.0;
-            int discountAmount = 10;
-            double expectedAmount = 900.0;
-            assertThat(Calculator.calculateDiscount(purchaseAmount, discountAmount))
-                    .isEqualTo(expectedAmount);
-            System.out.println("Test 1 passed: Correct discount calculation.");
+        Shop shop = new Shop(getStoreItems());
+        new TextUserInterface(shop);
+    }
 
-            // Проверка выброса исключения при отрицательной сумме покупки
-            try {
-                Calculator.calculateDiscount(-100, 10);
-            } catch (ArithmeticException e) {
-                assertThat(e).hasMessage("Invalid purchase amount or discount percentage");
-                System.out.println("Test 2 passed: Exception for negative purchase amount.");
-            }
+    // Создаем набор продуктов для магазина:
+    public static List<Product> getStoreItems() {
+        List<Product> products = new ArrayList<>();
 
-            // Проверка выброса исключения при проценте скидки более 100
-            try {
-                Calculator.calculateDiscount(100, 150);
-            } catch (ArithmeticException e) {
-                assertThat(e).hasMessage("Invalid purchase amount or discount percentage");
-                System.out.println("Test 3 passed: Exception for discount greater than 100.");
-            }
+        // Три массива Названия, Цены, Кол-во
+        String[] productNames = {"bacon", "beef", "ham", "salmon", "carrot", "potato", "onion", "apple", "melon", "rice", "eggs", "yogurt"};
+        Double[] productPrice = {170.00d, 250.00d, 200.00d, 150.00d, 15.00d, 30.00d, 20.00d, 59.00d, 88.00d, 100.00d, 80.00d, 55.00d};
+        Integer[] stock = {10, 10, 10, 10, 10, 10, 10, 70, 13, 30, 40, 60};
 
-            // Проверка выброса исключения при отрицательной скидке
-            try {
-                Calculator.calculateDiscount(100, -5);
-            } catch (ArithmeticException e) {
-                assertThat(e).hasMessage("Invalid purchase amount or discount percentage");
-                System.out.println("Test 4 passed: Exception for negative discount.");
-            }
-
-        } catch (AssertionError e) {
-            System.out.println("Test failed: " + e.getMessage());
+        // Последовательно наполняем список продуктами
+        for (int i = 0; i < productNames.length; i++) {
+            products.add(new Product(i + 1, productNames[i], productPrice[i], stock[i]));
         }
+
+        // тоже самое
+        // Product product = new Product(1,"bacon", 170.00d, 10);
+        // products.add(product);
+        return products;
     }
-    }
+}
