@@ -1,42 +1,26 @@
-import static org.assertj.core.api.Assertions.*;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        try {
-            // Проверка корректного вычисления скидки
-            double purchaseAmount = 1000.0;
-            int discountAmount = 10;
-            double expectedAmount = 900.0;
-            assertThat(Calculator.calculateDiscount(purchaseAmount, discountAmount))
-                    .isEqualTo(expectedAmount);
-            System.out.println("Test 1 passed: Correct discount calculation.");
+        // Пример данных для проверки
+        List<Integer> list1 = List.of(5, 10, 15, 20);
+        List<Integer> list2 = List.of(10, 15, 20, 25);
 
-            // Проверка выброса исключения при отрицательной сумме покупки
-            try {
-                Calculator.calculateDiscount(-100, 10);
-            } catch (ArithmeticException e) {
-                assertThat(e).hasMessage("Invalid purchase amount or discount percentage");
-                System.out.println("Test 2 passed: Exception for negative purchase amount.");
-            }
+        // Создаем объекты NumberList для каждого списка
+        NumberList numberList1 = new NumberList(list1);
+        NumberList numberList2 = new NumberList(list2);
 
-            // Проверка выброса исключения при проценте скидки более 100
-            try {
-                Calculator.calculateDiscount(100, 150);
-            } catch (ArithmeticException e) {
-                assertThat(e).hasMessage("Invalid purchase amount or discount percentage");
-                System.out.println("Test 3 passed: Exception for discount greater than 100.");
-            }
+        // Вычисляем средние значения
+        double average1 = numberList1.calculateAverage();
+        double average2 = numberList2.calculateAverage();
 
-            // Проверка выброса исключения при отрицательной скидке
-            try {
-                Calculator.calculateDiscount(100, -5);
-            } catch (ArithmeticException e) {
-                assertThat(e).hasMessage("Invalid purchase amount or discount percentage");
-                System.out.println("Test 4 passed: Exception for negative discount.");
-            }
-
-        } catch (AssertionError e) {
-            System.out.println("Test failed: " + e.getMessage());
+        // Сравниваем средние значения и выводим результат
+        if (average1 > average2) {
+            System.out.println("Первый список имеет большее среднее значение");
+        } else if (average1 < average2) {
+            System.out.println("Второй список имеет большее среднее значение");
+        } else {
+            System.out.println("Средние значения равны");
         }
     }
-    }
+}
